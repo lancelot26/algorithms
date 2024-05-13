@@ -1,6 +1,6 @@
 # Алгоритм Дейкстры
 
-def find_lowest_cost_node(costs):   # Поиск самого дешёвого пути до узла
+def find_lowest_cost_node(costs, processed):   # Поиск самого дешёвого пути до узла
     lowest_cost = float('inf')
     lowest_cost_node = None
     for node in costs:
@@ -10,8 +10,8 @@ def find_lowest_cost_node(costs):   # Поиск самого дешёвого �
             lowest_cost_node = node
     return lowest_cost_node
 
-def func(graph, costs, parents):
-    node = find_lowest_cost_node(costs)
+def func(graph, costs, parents, processed):   # Поиск кратчайшего пути
+    node = find_lowest_cost_node(costs, processed)
     while node is not None:
         cost = costs[node]
         neighbors = graph[node]
@@ -21,7 +21,7 @@ def func(graph, costs, parents):
                 costs[n] = new_cost
                 parents[n] = node
         processed.append(node)
-        node = find_lowest_cost_node(costs)
+        node = find_lowest_cost_node(costs, processed)
 
 
 graph = {   # Хеш-таблица отношений между узлами
@@ -52,7 +52,7 @@ parents = {   # Хеш-таблица родителей
 
 processed = []   # массив с уже проверенными нодами для find_lowest_cost_node()
 
-func(graph, costs, parents)
+func(graph, costs, parents, processed)
 
 print(costs['finish'])
 print(parents['finish'])
